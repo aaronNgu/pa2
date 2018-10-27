@@ -12,6 +12,8 @@ animation filler::fillSolidDFS(PNG& img, int x, int y, HSLAPixel fillColor,
      * @todo Your code here! You should replace the following line with a
      * correct call to fill with the correct colorPicker parameter.
      */
+    solidColorPicker solidCP(fillColor);
+    return fill<Stack>(img, x, y, ?, tolerance, frameFreq);
 }
 
 animation filler::fillGridDFS(PNG& img, int x, int y, HSLAPixel gridColor,
@@ -21,6 +23,8 @@ animation filler::fillGridDFS(PNG& img, int x, int y, HSLAPixel gridColor,
      * @todo Your code here! You should replace the following line with a
      * correct call to fill with the correct colorPicker parameter.
      */
+    gridColorPicker gridCP(gridColor,gridSpacing);
+    return fill<Stack>(img, x, y, gridCP, tolerance, frameFreq);
 }
 
 animation filler::fillGradientDFS(PNG& img, int x, int y,
@@ -31,6 +35,8 @@ animation filler::fillGradientDFS(PNG& img, int x, int y,
      * @todo Your code here! You should replace the following line with a
      * correct call to fill with the correct colorPicker parameter.
      */
+    gradientColorPicker gradCP(fadeColor1,fadeColor2,radius,x,y);
+    return fill<Stack>(img, x, y, gradCP, tolerance, frameFreq);
 }
 
 animation filler::fillRainDFS(PNG& img, int x, int y,
@@ -51,6 +57,8 @@ animation filler::fillSolidBFS(PNG& img, int x, int y, HSLAPixel fillColor,
      * @todo Your code here! You should replace the following line with a
      * correct call to fill with the correct colorPicker parameter.
      */
+    solidColorPicker solidCP(fillColor);
+    return fill<Queue>(img, x, y, soidCP, tolerance, frameFreq);
 }
 
 animation filler::fillGridBFS(PNG& img, int x, int y, HSLAPixel gridColor,
@@ -60,6 +68,8 @@ animation filler::fillGridBFS(PNG& img, int x, int y, HSLAPixel gridColor,
      * @todo Your code here! You should replace the following line with a
      * correct call to fill with the correct colorPicker parameter.
      */
+    gridColorPicker gridCP(gridColor,gridSpacing);
+    return fill<Queue>(img, x, y, ?, tolerance, frameFreq);
 }
 
 animation filler::fillGradientBFS(PNG& img, int x, int y,
@@ -70,6 +80,8 @@ animation filler::fillGradientBFS(PNG& img, int x, int y,
      * @todo Your code here! You should replace the following line with a
      * correct call to fill with the correct colorPicker parameter.
      */
+    gradientColorPicker gradCP(fadeColor1,fadeColor2,radius,x,y);
+    return fill<Queue>(img, x, y, gradCP, tolerance, frameFreq);
 }
 animation filler::fillRainBFS(PNG& img, int x, int y,
                                     long double freq, double tolerance, int frameFreq)
