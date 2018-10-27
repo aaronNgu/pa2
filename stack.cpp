@@ -15,12 +15,8 @@
 template<class T>
 void Stack<T>::push(T const & newItem)
 {
-    if (myStack.size < 0) {
-        return;
-    }
-    else if (myStack.size >=1) {
-        myStack[myStack.size] = newItem;
-    }
+    myStack.push_back(newItem);
+    
 }
 
 /**
@@ -38,15 +34,10 @@ T Stack<T>::pop()
     /**
      * @todo Your code here! 
      */
-
-    if (myStack.size < 0) {
-        return;
-    }
-    else if (myStack >=1) {
-        T removedItem = myStack[myStack.size-1];
-        myStack.erase(myStack.size-1);
-        return removedItem;
-    }
+    T removedItem = myStack.back();
+    myStack.pop_back();
+    return removedItem;
+    
 }
 
 /**
@@ -94,9 +85,8 @@ T Stack<T>::remove()
 template <class T>
 T Stack<T>::peek()
 {
-    return myStack(myStack.size - 1);
-
-    
+    return myStack.back();
+      
 }
 
 /**
@@ -113,9 +103,5 @@ bool Stack<T>::isEmpty() const
     /**
      * @todo Your code here! 
      */
-    if (myStack.size == 0) {
-        return true;
-    }else{
-        return false;
-    } 
+    return myStack.size() == 0;
 }
