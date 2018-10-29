@@ -29,22 +29,17 @@ TEST_CASE("queue::basic functions","[weight=1][part=queue]"){
     Queue<int> intQueue;
     vector<int> result;
     vector<int> expected;
-    cout<< "first loo" << endl;
     for (int i = 1; i <= 10; i++) {
         expected.push_back(i);
     }
-    cout<< "second loo" << endl;
     for (int i = 1; i <= 10; i++) {
         intQueue.enqueue(i);
     }
     //cout << intStack.peek() << endl;
-    cout<< "third loo"<< endl;
     while (!intQueue.isEmpty()) {
         result.push_back(intQueue.dequeue());
         // cout << intStack.pop() << " ";
-        cout<< "in loop"<< endl;
     }
-    cout << "end of loo"<< endl;
     REQUIRE( result == expected);
 }
 

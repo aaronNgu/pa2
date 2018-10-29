@@ -15,7 +15,7 @@ void Queue<T>::enqueue(T const& newItem)
     /**
      * @todo Your code here!
      */
-    printf("in enqueue\n");
+ 
     inStack.push(newItem);
     
 }
@@ -32,16 +32,12 @@ T Queue<T>::dequeue()
     /**
      * @todo Your code here! 
      */
-     printf("in dequeue \n");
-    if(outStack.isEmpty()){
+
          while(!inStack.isEmpty()){
              outStack.push(inStack.pop());
-        }
-                printf("return of dequeue \n");                
-8
+        }               
         return outStack.pop();
-    }
-    printf("end of dequeue \n");
+      
 }
 
 /**
@@ -56,7 +52,7 @@ void Queue<T>::add(const T& theItem)
      * @todo Your code here! Hint: this function should call a Queue
      *  function to add the element to the Queue.
      */
-    printf("in add \n");
+ 
     enqueue(theItem);
     
 }
@@ -73,7 +69,7 @@ T Queue<T>::remove()
      * @todo Your code here! Hint: this function should call a Queue
      *  function to remove an element from the Queue and return it. 
      */
-    printf("in remove \n"); 
+   
      return dequeue();
 }
 
@@ -100,7 +96,7 @@ T Queue<T>::peek()
     //         inStack.push(outStack.pop());
     //     }
     // return front;
-    printf("in peek \n");
+
      if(outStack.isEmpty()){
          while(!inStack.isEmpty()){
              outStack.push(inStack.pop());
@@ -121,7 +117,6 @@ bool Queue<T>::isEmpty() const
     /**
      * @todo Your code here! 
     //  */
-    printf("in isEmpty()\n"); 
-    return inStack.isEmpty() && outStack.isEmpty();
-    printf("end of isEmpty() \n");
+
+    return inStack.isEmpty() & outStack.isEmpty();
 }
