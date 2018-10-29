@@ -69,7 +69,7 @@ T Stack<T>::remove()
      *  to remove an element from the Stack and return it. You will need to
      *  replace the following line.
      */
-    pop();
+    return pop();
 }
 
 /**
@@ -103,5 +103,5 @@ bool Stack<T>::isEmpty() const
     /**
      * @todo Your code here! 
      */
-    return myStack.size() == 0;
+    return myStack.empty();
 }

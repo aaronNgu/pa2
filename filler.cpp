@@ -101,6 +101,18 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
     /**
      * @todo You need to implement this function!
      *
+     * @param img Image to do the filling on.
+     * @param x X coordinate to start the fill from.
+     * @param y Y coordinate to start the fill from.
+     * @param fillColor The colorPicker to be used for the fill.
+     * @param tolerance How far away colors are allowed to be to still be
+     *  included in the fill.
+     * @param frameFreq How frequently to add a frame to the animation, in
+     *  pixels. For instance, if frameFreq == 1, a frame is added when every
+     *  pixel is filled. If frameFreq == 10, a frame is added after every 10
+     *  pixels is filled.
+     * @return An animation that shows the fill progressing over the image.
+     * 
      * This is the basic description of a flood-fill algorithm: Every fill
      * algorithm requires an ordering structure, which is passed to this
      * function via its template parameter. For a breadth-first-search
@@ -148,11 +160,14 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      *        after the 8th pixel, etc.  You must only add frames for the
      *        number of pixels that have been filled, not the number that
      *        have been checked. So if frameFreq is set to 1, a pixel should
-     *        be filled every frame.
+     *        be filled every frame./
      * 4.     Finally, as you leave the function, send one last frame to the
      *        animation. This frame will be the final result of the fill, and 
      *        it will be the one we test against.
+     * 
+     * 1. place given 
      */
 
-
+     animation a;
+     a.addFrame(img);
 } 

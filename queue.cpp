@@ -15,7 +15,7 @@ void Queue<T>::enqueue(T const& newItem)
     /**
      * @todo Your code here!
      */
-    printf("in enqueue");
+    printf("in enqueue\n");
     inStack.push(newItem);
     
 }
@@ -32,16 +32,16 @@ T Queue<T>::dequeue()
     /**
      * @todo Your code here! 
      */
-    printf("in dequeue");
+     printf("in dequeue \n");
     if(outStack.isEmpty()){
-        printf("in dequeue1");
-        while(!inStack.isEmpty()){
-            printf("in dequeue2");
-            outStack.push(inStack.pop());
+         while(!inStack.isEmpty()){
+             outStack.push(inStack.pop());
         }
-        printf("in dequeue3");
-        outStack.pop();
+                printf("return of dequeue \n");                
+8
+        return outStack.pop();
     }
+    printf("end of dequeue \n");
 }
 
 /**
@@ -56,7 +56,7 @@ void Queue<T>::add(const T& theItem)
      * @todo Your code here! Hint: this function should call a Queue
      *  function to add the element to the Queue.
      */
-    printf("in add");
+    printf("in add \n");
     enqueue(theItem);
     
 }
@@ -73,8 +73,8 @@ T Queue<T>::remove()
      * @todo Your code here! Hint: this function should call a Queue
      *  function to remove an element from the Queue and return it. 
      */
-    printf("in remove"); 
-    dequeue();
+    printf("in remove \n"); 
+     return dequeue();
 }
 
 /**
@@ -89,23 +89,30 @@ T Queue<T>::peek()
     /**
      * @todo Your code here! 
      */
-    printf("in peek()");
-     while(!inStack.isEmpty()){
-            printf("in peek2");
-            outStack.push(inStack.pop());
-        }
-    T front = outStack.peek();
-    while(!outStack.isEmpty()){
-            printf("in peek3");
-            inStack.push(outStack.pop());
-        }
-    return front;
-    
+    // printf("in peek()");
+    //  while(!inStack.isEmpty()){
+    //         printf("in peek2");
+    //         outStack.push(inStack.pop());
+    //     }
+    // T front = outStack.peek();
+    // while(!outStack.isEmpty()){
+    //         printf("in peek3");
+    //         inStack.push(outStack.pop());
+    //     }
+    // return front;
+    printf("in peek \n");
+     if(outStack.isEmpty()){
+         while(!inStack.isEmpty()){
+             outStack.push(inStack.pop());
+         }
+         return outStack.peek();
+    }
+
 }
 
 /**
  * Determines if the Queue is empty.
- *
+ * 
  * @return bool which is true if the Queue is empty, false otherwise.
  */
 template <class T>
@@ -114,6 +121,7 @@ bool Queue<T>::isEmpty() const
     /**
      * @todo Your code here! 
     //  */
-    printf("in isEmpty()"); 
+    printf("in isEmpty()\n"); 
     return inStack.isEmpty() && outStack.isEmpty();
+    printf("end of isEmpty() \n");
 }
