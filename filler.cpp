@@ -191,14 +191,14 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      HSLAPixel newColor = fillColor(x,y);
      HSLAPixel * curPix = img.getPixel(x,y);
      //original pixel to compare to
-     HSLAPixel * strPix = curPix;
+     HSLAPixel  strPix =* curPix;
      *curPix = newColor;
      //color it by assigning some value in curPix 
      //pass it into ordering structure
      xC.add(x);
      yC.add(y);
      points.add(curPix);
-     processed[y][x];
+     processed[y][x] = true;
  
      while(!points.isEmpty()){
          //take out current point 
@@ -208,7 +208,7 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
 
          //check if RIGHT(+X) neighbour within tolerance
          HSLAPixel* right = img.getPixel(xCur+1,yCur);
-         if(right->dist(*strPix)<=tolerance){
+         if(right->dist(strPix)<=tolerance && xCur+1 < img.width() && yCur < img.height() && !processed[yCur][xCur+1 ]){
              //change processed
              processed[yCur][xCur+1] = true;
 
@@ -223,9 +223,22 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              frameCount++;
          }
 
+        //check if DOWN(+y) neighbour within tolerance
+         HSLAPixel* down = img.getPixel(xCur,yCur+1);
+         if(down->dist(strPix)<=tolerance && xCur < img.width() && yCur+1 < img.height() && !processed[yCur+1][xCur]){
+             processed[yCur+1][xCur] = true;
+             HSLAPixel nC = fillColor(xCur,yCur+1);
+             *down = nC;
+
+             points.add(down);
+             xC.add(xCur);
+             yC.add(yCur+1);
+             frameCount++;
+         }
+
          //check if LEFT(-X) neighbour within tolerance
          HSLAPixel* left = img.getPixel(xCur-1,yCur);
-         if(left->dist(*strPix)<=tolerance){
+         if(left->dist(strPix)<=tolerance && xCur-1 < img.width() && yCur < img.height() && !processed[yCur][xCur-1 ]){
              processed[yCur][xCur-1] = true;
              HSLAPixel nC = fillColor(xCur-1, yCur);
              *left = nC;
@@ -239,7 +252,7 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
 
          //check if UP(-y) neighbour within tolerance
          HSLAPixel* up = img.getPixel(xCur,yCur-1);
-         if(up->dist(*strPix)<=tolerance){
+         if(up->dist(strPix)<=tolerance && xCur < img.width() && yCur-1 < img.height() && !processed[yCur-1][xCur]){
              processed[yCur-1][xCur] = true;
              HSLAPixel nC = fillColor(xCur,yCur-1);
              *up = nC;
@@ -250,31 +263,12 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              frameCount++;
          }
 
-        //check if DOWN(+y) neighbour within tolerance
-         HSLAPixel* down = img.getPixel(xCur,yCur+1);
-         if(down->dist(*strPix)<=tolerance){
-             processed[yCur+1][xCur] = true;
-             HSLAPixel nC = fillColor(xCur,yCur+1);
-             *down = nC;
-
-             points.add(down);
-             xC.add(xCur);
-             yC.add(yCur+1);
-             frameCount++;
-         }
-
         if(frameCount%frameFreq == 0){
         // called when number of pixel filled % frameFreq == 0
              a.addFrame(img);
-             return a;
         }
      }
-     // dist should be less than tolerance
-     // what do we store in the ordering structure?
-     // 
-     // take out from ordering sturcture for the next iteration?
-     // coloring one part
-     // iterate through the whole image using OS?
-     // what do we do after its colored?
     
+    a.addFrame(img);
+    return a;
 } 
