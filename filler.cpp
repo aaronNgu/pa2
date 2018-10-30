@@ -169,22 +169,32 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      // Place given point in the ordering structure
      
      animation a;
+     
      OrderingStructure<HSLAPixel> points;
-     OrderingStructure<int> x-cord;
-     OrderingStructure<int> y-cord; 
-     int frameCount
+     OrderingStructure<int> x-cord;     // used to keep track of processed pixel 
+     OrderingStructure<int> y-cord;
+
+     int frameCount = 0;        // keeps count of the number of pixel processed
+     bool processed[x][y];      // check processed part of the image
+     // label everything as false
+     for(int i = 0; i < img.height() ; i++ ){
+         for(int j = 0; j < imge.width() ; j++){
+             processed [j][i] == false;
+         }
+     }
      // called when number of pixel filled % frameFreq == 0
      a.addFrame(img);
 
-
-     // color to color on the new pixel;
-     // change color
+     // gets new Color
      HSLAPixel newColor = fillColor(x,y);
-     HSLAPixel * curPix = img.getPixel(x,y);
-     curPix = newColor;
-     //color it by assigning some value in curPix 
+     
+     HSLAPixel * firstPix = img.getPixel(x,y);
+     HSLAPixel oriPix = *curPix;        //keep reference of ori pixel
+     firstPix = newColor;     // change color of the original pixel
+
+     points.add()
+     HSLAPixel curPix = points.remove()
      //pass it into ordering structure
-     OS.add
      // tolerance? from the center?
      // dist should be less than tolerance
      // what do we store in the ordering structure?

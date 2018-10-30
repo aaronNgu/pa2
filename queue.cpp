@@ -118,5 +118,5 @@ bool Queue<T>::isEmpty() const
      * @todo Your code here! 
     //  */
 
-    return inStack.isEmpty() & outStack.isEmpty();
+    return inStack.isEmpty() && outStack.isEmpty();
 }
