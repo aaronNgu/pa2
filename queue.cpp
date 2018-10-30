@@ -32,11 +32,15 @@ T Queue<T>::dequeue()
     /**
      * @todo Your code here! 
      */
-
-         while(!inStack.isEmpty()){
+        T item;
+        while(!inStack.isEmpty()){
              outStack.add(inStack.remove());
-        }               
-        return outStack.remove();
+        } 
+        item = outStack.remove();
+        while(!outStack.isEmpty()){
+            inStack.add(outStack.remove());
+        }
+        return item;
       
 }
 
@@ -101,6 +105,9 @@ T Queue<T>::peek()
          outStack.add(inStack.remove());
      }
      item = outStack.peek();
+     while(!outStack.isEmpty()){
+         inStack.add(outStack.remove());
+     }
      return  item;
 }
 
