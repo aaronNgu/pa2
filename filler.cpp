@@ -141,7 +141,7 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      *        for a proper fill, you must use the same order as we do for
      *        your animations to come out like ours! The order you should put
      *        neighboring pixels **ONTO** the queue or stack is as follows:
-     *        **RIGHT(+x), DOWN(+y), LEFT(-x), UP(-y). IMPORTANT NOTE: *UP*
+     *        **RIGHT(+x),0014474 DOWN(+y), LEFT(-x), UP(-y). IMPORTANT NOTE: *UP*
      *        here means towards the top of the image, so since an image has
      *        smaller y coordinates at the top, this is in the *negative y*
      *        direction. Similarly, *DOWN* means in the *positive y*
@@ -175,28 +175,82 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      OrderingStructure<HSLAPixel> points;
      OrderingStructure<int> x-cord;
      OrderingStructure<int> y-cord; 
-     int frameCount;     
+     int frameCount = 0;     
 
      //keep track of processed
      vector<vector<bool>> processed;
-
      for(int i = 0; i < img.height(); i++){
-         vector<bool> inner;
+         vector<bool> horizontal;
          for(int j = 0; j < img.width(); j++){
              inner.push_back(false);
          }
-         V.push_back(inner);
+         V.push_back(horizontal);
      }
 
      // color to color on the new pixel;
      // change color
      HSLAPixel newColor = fillColor(x,y);
      HSLAPixel * curPix = img.getPixel(x,y);
+     //original pixel to compare to
+     HSLAPixel * strPix = curpix;
      curPix = newColor;
      //color it by assigning some value in curPix 
      //pass it into ordering structure
-     
+     x-cord.add(x);
+     y-cord.add(y);
+     points.add(curpix);
+     processed[y][x];
      // tolerance? from the center?
+     //what to check?
+     while(!points.isEmpty()){
+         //take out current point 
+         T cur = points.remove();
+         //change processed and check neighbour
+         T x-cur = x-cord.remove();
+         T y-cur = y-cord.remove();
+
+         //check if RIGHT(+X) neighbour within tolerance
+         T right = img.getPixel(x-cur+1,y-cur);
+         if(right.dist(strPix)<=tolerance){
+             processed[y-cur][x-cur+1] = true;
+             HSLAPixel nC = fillColor(x-cur+1, y-cur);
+             right = nC;
+
+             points.add(right);
+             x-cord(x-cur+1);
+             y-cord(y-cur);
+
+             frameCount++;
+         }
+
+         //check if LEFT(-X) neighbour within tolerance
+         T left = img.getPixel(x-cur-1,y-cur);
+         if(left.dist(strPix)<=tolerance){
+             processed[y-cur][x-cur-1] = true;
+             HSLAPixel nC = fillColor(x-cur-1, y-cur);
+             left = nC;
+
+             points.add(left);
+             x-cord(x-cur-1);
+             y-cord(y-cur);
+
+             frameCount++;
+         }
+
+         //check if UP(-y)
+         T up = img.getPixel(x-cur,y-cur-1);
+         if(up.dist(strPix)<=tolarance){
+             processed[y-cur-1][x-cur] = true;
+             HSLAPixel nC = fillColor(x-cur,y-cur-1);
+             up = nC;
+
+             points.add(up);
+             x-cord();
+             y-cord();
+         }
+         //get x and y to get neighours 
+         //
+     }
      // dist should be less than tolerance
      // what do we store in the ordering structure?
      // 
