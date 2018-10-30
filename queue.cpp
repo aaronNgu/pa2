@@ -96,14 +96,12 @@ T Queue<T>::peek()
     //         inStack.push(outStack.pop());
     //     }
     // return front;
-
-
+    T item;
      while(!inStack.isEmpty()){
          outStack.add(inStack.remove());
      }
-     return  outStack.peek();
-    
-
+     item = outStack.peek();
+     return  item;
 }
 
 /**
