@@ -16,7 +16,7 @@ void Queue<T>::enqueue(T const& newItem)
      * @todo Your code here!
      */
  
-    inStack.push(newItem);
+    inStack.add(newItem);
     
 }
 
@@ -34,9 +34,9 @@ T Queue<T>::dequeue()
      */
 
          while(!inStack.isEmpty()){
-             outStack.push(inStack.pop());
+             outStack.add(inStack.remove());
         }               
-        return outStack.pop();
+        return outStack.remove();
       
 }
 
@@ -98,10 +98,16 @@ T Queue<T>::peek()
     // return front;
 
      if(outStack.isEmpty()){
+         T item;
          while(!inStack.isEmpty()){
-             outStack.push(inStack.pop());
+             outStack.add(inStack.remove());
          }
-         return outStack.peek();
+         item = outStack.peek();
+         while(!outstack.isEmpty()){
+             inStack.add(outStack.remove());
+         }
+         return item;
+        
     }
 
 }
@@ -118,5 +124,5 @@ bool Queue<T>::isEmpty() const
      * @todo Your code here! 
     //  */
 
-    return inStack.isEmpty() & outStack.isEmpty();
+    return inStack.isEmpty() && outStack.isEmpty();
 }
