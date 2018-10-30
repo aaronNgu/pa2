@@ -203,8 +203,8 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      while(!points.isEmpty()){
          //take out current point 
          HSLAPixel* cur = points.remove();
-         int xCur = xC.remove();
-         int yCur = yC.remove();
+         unsigned int xCur = xC.remove();
+         unsigned int yCur = yC.remove();
 
          //check if RIGHT(+X) neighbour within tolerance
          HSLAPixel* right = img.getPixel(xCur+1,yCur);
