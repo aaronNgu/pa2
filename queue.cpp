@@ -34,6 +34,7 @@ T Queue<T>::dequeue()
      */
         T item;
         while(!inStack.isEmpty()){
+
              outStack.add(inStack.remove());
         } 
         item = outStack.remove();
@@ -89,17 +90,6 @@ T Queue<T>::peek()
     /**
      * @todo Your code here! 
      */
-    // printf("in peek()");
-    //  while(!inStack.isEmpty()){
-    //         printf("in peek2");
-    //         outStack.push(inStack.pop());
-    //     }
-    // T front = outStack.peek();
-    // while(!outStack.isEmpty()){
-    //         printf("in peek3");
-    //         inStack.push(outStack.pop());
-    //     }
-    // return front;
     T item;
      while(!inStack.isEmpty()){
          outStack.add(inStack.remove());
