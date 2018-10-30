@@ -98,16 +98,11 @@ T Queue<T>::peek()
     // return front;
 
      if(outStack.isEmpty()){
-         T item;
          while(!inStack.isEmpty()){
              outStack.add(inStack.remove());
          }
-         item = outStack.peek();
-         while(!outstack.isEmpty()){
-             inStack.add(outStack.remove());
-         }
-         return item;
-        
+         return  outStack.peek();
+         
     }
 
 }
