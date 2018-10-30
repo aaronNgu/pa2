@@ -13,7 +13,7 @@ animation filler::fillSolidDFS(PNG& img, int x, int y, HSLAPixel fillColor,
      * correct call to fill with the correct colorPicker parameter.
      */
     solidColorPicker solidCP(fillColor);
-    return fill<Stack>(img, x, y, ?, tolerance, frameFreq);
+    return fill<Stack>(img, x, y, solidCP, tolerance, frameFreq);
 }
 
 animation filler::fillGridDFS(PNG& img, int x, int y, HSLAPixel gridColor,
@@ -58,7 +58,7 @@ animation filler::fillSolidBFS(PNG& img, int x, int y, HSLAPixel fillColor,
      * correct call to fill with the correct colorPicker parameter.
      */
     solidColorPicker solidCP(fillColor);
-    return fill<Queue>(img, x, y, soidCP, tolerance, frameFreq);
+    return fill<Queue>(img, x, y, solidCP, tolerance, frameFreq);
 }
 
 animation filler::fillGridBFS(PNG& img, int x, int y, HSLAPixel gridColor,
@@ -69,7 +69,7 @@ animation filler::fillGridBFS(PNG& img, int x, int y, HSLAPixel gridColor,
      * correct call to fill with the correct colorPicker parameter.
      */
     gridColorPicker gridCP(gridColor,gridSpacing);
-    return fill<Queue>(img, x, y, ?, tolerance, frameFreq);
+    return fill<Queue>(img, x, y, gridCP, tolerance, frameFreq);
 }
 
 animation filler::fillGradientBFS(PNG& img, int x, int y,
@@ -169,22 +169,21 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      // Place given point in the ordering structure
      
      animation a;
-     // called when number of pixel filled % frameFreq == 0
-     a.addFrame(img);
+     
 
-     OrderingStructure<HSLAPixel> points;
-     OrderingStructure<int> x-cord;
-     OrderingStructure<int> y-cord; 
+     OrderingStructure<HSLAPixel*> points;
+     OrderingStructure<int> xC;
+     OrderingStructure<int> yC; 
      int frameCount = 0;     
 
      //keep track of processed
      vector<vector<bool>> processed;
-     for(int i = 0; i < img.height(); i++){
+     for(unsigned int i = 0; i < img.height(); i++){
          vector<bool> horizontal;
-         for(int j = 0; j < img.width(); j++){
-             inner.push_back(false);
+         for(unsigned int j = 0; j < img.width(); j++){
+             horizontal.push_back(false);
          }
-         V.push_back(horizontal);
+         processed.push_back(horizontal);
      }
 
      // color to color on the new pixel;
@@ -192,64 +191,83 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      HSLAPixel newColor = fillColor(x,y);
      HSLAPixel * curPix = img.getPixel(x,y);
      //original pixel to compare to
-     HSLAPixel * strPix = curpix;
-     curPix = newColor;
+     HSLAPixel * strPix = curPix;
+     *curPix = newColor;
      //color it by assigning some value in curPix 
      //pass it into ordering structure
-     x-cord.add(x);
-     y-cord.add(y);
-     points.add(curpix);
+     xC.add(x);
+     yC.add(y);
+     points.add(curPix);
      processed[y][x];
-     // tolerance? from the center?
-     //what to check?
+ 
      while(!points.isEmpty()){
          //take out current point 
-         T cur = points.remove();
-         //change processed and check neighbour
-         T x-cur = x-cord.remove();
-         T y-cur = y-cord.remove();
+         HSLAPixel* cur = points.remove();
+         int xCur = xC.remove();
+         int yCur = yC.remove();
 
          //check if RIGHT(+X) neighbour within tolerance
-         T right = img.getPixel(x-cur+1,y-cur);
-         if(right.dist(strPix)<=tolerance){
-             processed[y-cur][x-cur+1] = true;
-             HSLAPixel nC = fillColor(x-cur+1, y-cur);
-             right = nC;
+         HSLAPixel* right = img.getPixel(xCur+1,yCur);
+         if(right->dist(*strPix)<=tolerance){
+             //change processed
+             processed[yCur][xCur+1] = true;
+
+             //color point
+             HSLAPixel nC = fillColor(xCur+1, yCur);
+             *right = nC;
 
              points.add(right);
-             x-cord(x-cur+1);
-             y-cord(y-cur);
+             xC.add(xCur+1);
+             yC.add(yCur);
 
              frameCount++;
          }
 
          //check if LEFT(-X) neighbour within tolerance
-         T left = img.getPixel(x-cur-1,y-cur);
-         if(left.dist(strPix)<=tolerance){
-             processed[y-cur][x-cur-1] = true;
-             HSLAPixel nC = fillColor(x-cur-1, y-cur);
-             left = nC;
+         HSLAPixel* left = img.getPixel(xCur-1,yCur);
+         if(left->dist(*strPix)<=tolerance){
+             processed[yCur][xCur-1] = true;
+             HSLAPixel nC = fillColor(xCur-1, yCur);
+             *left = nC;
 
              points.add(left);
-             x-cord(x-cur-1);
-             y-cord(y-cur);
+             xC.add(xCur-1);
+             yC.add(yCur);
 
              frameCount++;
          }
 
-         //check if UP(-y)
-         T up = img.getPixel(x-cur,y-cur-1);
-         if(up.dist(strPix)<=tolarance){
-             processed[y-cur-1][x-cur] = true;
-             HSLAPixel nC = fillColor(x-cur,y-cur-1);
-             up = nC;
+         //check if UP(-y) neighbour within tolerance
+         HSLAPixel* up = img.getPixel(xCur,yCur-1);
+         if(up->dist(*strPix)<=tolerance){
+             processed[yCur-1][xCur] = true;
+             HSLAPixel nC = fillColor(xCur,yCur-1);
+             *up = nC;
 
              points.add(up);
-             x-cord();
-             y-cord();
+             xC.add(xCur);
+             yC.add(yCur-1);
+             frameCount++;
          }
-         //get x and y to get neighours 
-         //
+
+        //check if DOWN(+y) neighbour within tolerance
+         HSLAPixel* down = img.getPixel(xCur,yCur+1);
+         if(down->dist(*strPix)<=tolerance){
+             processed[yCur+1][xCur] = true;
+             HSLAPixel nC = fillColor(xCur,yCur+1);
+             *down = nC;
+
+             points.add(down);
+             xC.add(xCur);
+             yC.add(yCur+1);
+             frameCount++;
+         }
+
+        if(frameCount%frameFreq == 0){
+        // called when number of pixel filled % frameFreq == 0
+             a.addFrame(img);
+             return a;
+        }
      }
      // dist should be less than tolerance
      // what do we store in the ordering structure?
