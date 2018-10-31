@@ -227,6 +227,7 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              frameCount++;
               if(frameCount%frameFreq == 0){
              a.addFrame(img);
+              }
          }
 
         //check if DOWN(+y) neighbour within tolerance
@@ -242,6 +243,7 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              frameCount++;
               if(frameCount%frameFreq == 0){
              a.addFrame(img);
+              }
          }
 
          //check if LEFT(-X) neighbour within tolerance
@@ -258,6 +260,7 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              frameCount++;
               if(frameCount%frameFreq == 0){
              a.addFrame(img);
+              }
          }
 
          //check if UP(-y) neighbour within tolerance
@@ -273,6 +276,7 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              frameCount++;
              if(frameCount%frameFreq == 0){
              a.addFrame(img);
+             }
         }   
      }
     
