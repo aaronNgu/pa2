@@ -39,16 +39,16 @@ animation filler::fillGradientDFS(PNG& img, int x, int y,
     return fill<Stack>(img, x, y, gradCP, tolerance, frameFreq);
 }
 
-animation filler::fillRainDFS(PNG& img, int x, int y,
-                                    long double freq, double tolerance, int frameFreq)
-{
-    /**
-     * @todo Your code here! You should replace the following line with a
-     * correct call to fill with the correct colorPicker parameter.
-     */
-    rainbowColorPicker a(freq);
-    return fill<Stack>(img, x, y, a, tolerance, frameFreq);
-}
+// animation filler::fillRainDFS(PNG& img, int x, int y,
+//                                     long double freq, double tolerance, int frameFreq)
+// {
+//     /**
+//      * @todo Your code here! You should replace the following line with a
+//      * correct call to fill with the correct colorPicker parameter.
+//      */
+//     // rainbowColorPicker a(freq);
+//     return fill<Stack>(img, x, y, a, tolerance, frameFreq);
+// }
 
 animation filler::fillSolidBFS(PNG& img, int x, int y, HSLAPixel fillColor,
                                  double tolerance, int frameFreq)
@@ -83,16 +83,16 @@ animation filler::fillGradientBFS(PNG& img, int x, int y,
     gradientColorPicker gradCP(fadeColor1,fadeColor2,radius,x,y);
     return fill<Queue>(img, x, y, gradCP, tolerance, frameFreq);
 }
-animation filler::fillRainBFS(PNG& img, int x, int y,
-                                    long double freq, double tolerance, int frameFreq)
-{
-    /**
-     * @todo Your code here! You should replace the following line with a
-     * correct call to fill with the correct colorPicker parameter.
-     */
-    rainbowColorPicker a(freq);
-    return fill<Queue>(img, x, y, a, tolerance, frameFreq);
-}
+// animation filler::fillRainBFS(PNG& img, int x, int y,
+//                                     long double freq, double tolerance, int frameFreq)
+// {
+//     /**
+//      * @todo Your code here! You should replace the following line with a
+//      * correct call to fill with the correct colorPicker parameter.
+//      */
+//     // rainbowColorPicker a(freq);
+//     return fill<Queue>(img, x, y, a, tolerance, frameFreq);
+// }
 
 template <template <class T> class OrderingStructure>
 animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
@@ -199,12 +199,16 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      yC.add(y);
      points.add(curPix);
      processed[y][x] = true;
+
+      if(frameCount%frameFreq == 0){
+             a.addFrame(img);
+      }
  
      while(!points.isEmpty()){
          //take out current point 
          HSLAPixel* cur = points.remove();
-         int xCur = xC.remove();
-         int yCur = yC.remove();
+         unsigned int xCur = xC.remove();
+         unsigned int yCur = yC.remove();
 
          //check if RIGHT(+X) neighbour within tolerance
          HSLAPixel* right = img.getPixel(xCur+1,yCur);
@@ -221,6 +225,9 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              yC.add(yCur);
 
              frameCount++;
+              if(frameCount%frameFreq == 0){
+             a.addFrame(img);
+              }
          }
 
         //check if DOWN(+y) neighbour within tolerance
@@ -234,6 +241,9 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              xC.add(xCur);
              yC.add(yCur+1);
              frameCount++;
+              if(frameCount%frameFreq == 0){
+             a.addFrame(img);
+              }
          }
 
          //check if LEFT(-X) neighbour within tolerance
@@ -248,6 +258,9 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              yC.add(yCur);
 
              frameCount++;
+              if(frameCount%frameFreq == 0){
+             a.addFrame(img);
+              }
          }
 
          //check if UP(-y) neighbour within tolerance
@@ -261,12 +274,10 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              xC.add(xCur);
              yC.add(yCur-1);
              frameCount++;
-         }
-
-        if(frameCount%frameFreq == 0){
-        // called when number of pixel filled % frameFreq == 0
+             if(frameCount%frameFreq == 0){
              a.addFrame(img);
-        }
+             }
+        }   
      }
     
     a.addFrame(img);
