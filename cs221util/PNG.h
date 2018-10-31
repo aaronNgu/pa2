@@ -87,7 +87,7 @@ namespace cs221util {
       * @param y Y-coordinate for the pixel pointer to be grabbed from.
       * @return A pointer to the pixel at the given coordinates.
       */
-    H SLAPixel* getPixel(unsigned int x, unsigned int y) const;
+    HSLAPixel* getPixel(unsigned int x, unsigned int y) const;
 
     /**
       * Gets the width of this image.

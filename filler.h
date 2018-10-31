@@ -12,7 +12,7 @@
 #include "solidColorPicker.h"
 #include "gridColorPicker.h"
 #include "gradientColorPicker.h"
-#include "rainbowColorPicker.h"
+// #include "rainbowColorPicker.h"
 #include "animation.h"
 using namespace cs221util;
 
@@ -87,8 +87,8 @@ namespace filler
         /* The following two functions are given to you as examples of 
          * working fill functions.
         */
-        animation fillRainDFS(PNG& img, int x, int y, long double freq, double tolerance, int frameFreq);
-        animation fillRainBFS(PNG& img, int x, int y, long double freq, double tolerance, int frameFreq);
+        // animation fillRainDFS(PNG& img, int x, int y, long double freq, double tolerance, int frameFreq);
+        // animation fillRainBFS(PNG& img, int x, int y, long double freq, double tolerance, int frameFreq);
 
         /**
          * Performs a flood fill on the given image using a solid color,
