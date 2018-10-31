@@ -199,6 +199,10 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
      yC.add(y);
      points.add(curPix);
      processed[y][x] = true;
+
+      if(frameCount%frameFreq == 0){
+             a.addFrame(img);
+      }
  
      while(!points.isEmpty()){
          //take out current point 
@@ -221,6 +225,8 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              yC.add(yCur);
 
              frameCount++;
+              if(frameCount%frameFreq == 0){
+             a.addFrame(img);
          }
 
         //check if DOWN(+y) neighbour within tolerance
@@ -234,6 +240,8 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              xC.add(xCur);
              yC.add(yCur+1);
              frameCount++;
+              if(frameCount%frameFreq == 0){
+             a.addFrame(img);
          }
 
          //check if LEFT(-X) neighbour within tolerance
@@ -248,6 +256,8 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              yC.add(yCur);
 
              frameCount++;
+              if(frameCount%frameFreq == 0){
+             a.addFrame(img);
          }
 
          //check if UP(-y) neighbour within tolerance
@@ -261,12 +271,9 @@ animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
              xC.add(xCur);
              yC.add(yCur-1);
              frameCount++;
-         }
-
-        if(frameCount%frameFreq == 0){
-        // called when number of pixel filled % frameFreq == 0
+             if(frameCount%frameFreq == 0){
              a.addFrame(img);
-        }
+        }   
      }
     
     a.addFrame(img);
