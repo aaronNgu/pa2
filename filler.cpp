@@ -39,16 +39,16 @@ animation filler::fillGradientDFS(PNG& img, int x, int y,
     return fill<Stack>(img, x, y, gradCP, tolerance, frameFreq);
 }
 
-animation filler::fillRainDFS(PNG& img, int x, int y,
-                                    long double freq, double tolerance, int frameFreq)
-{
-    /**
-     * @todo Your code here! You should replace the following line with a
-     * correct call to fill with the correct colorPicker parameter.
-     */
-    rainbowColorPicker a(freq);
-    return fill<Stack>(img, x, y, a, tolerance, frameFreq);
-}
+// animation filler::fillRainDFS(PNG& img, int x, int y,
+//                                     long double freq, double tolerance, int frameFreq)
+// {
+//     /**
+//      * @todo Your code here! You should replace the following line with a
+//      * correct call to fill with the correct colorPicker parameter.
+//      */
+//     rainbowColorPicker a(freq);
+//     return fill<Stack>(img, x, y, a, tolerance, frameFreq);
+// }
 
 animation filler::fillSolidBFS(PNG& img, int x, int y, HSLAPixel fillColor,
                                  double tolerance, int frameFreq)
@@ -83,16 +83,16 @@ animation filler::fillGradientBFS(PNG& img, int x, int y,
     gradientColorPicker gradCP(fadeColor1,fadeColor2,radius,x,y);
     return fill<Queue>(img, x, y, gradCP, tolerance, frameFreq);
 }
-animation filler::fillRainBFS(PNG& img, int x, int y,
-                                    long double freq, double tolerance, int frameFreq)
-{
-    /**
-     * @todo Your code here! You should replace the following line with a
-     * correct call to fill with the correct colorPicker parameter.
-     */
-    rainbowColorPicker a(freq);
-    return fill<Queue>(img, x, y, a, tolerance, frameFreq);
-}
+// animation filler::fillRainBFS(PNG& img, int x, int y,
+//                                     long double freq, double tolerance, int frameFreq)
+// {
+//     /**
+//      * @todo Your code here! You should replace the following line with a
+//      * correct call to fill with the correct colorPicker parameter.
+//      */
+//     rainbowColorPicker a(freq);
+//     return fill<Queue>(img, x, y, a, tolerance, frameFreq);
+// }
 
 template <template <class T> class OrderingStructure>
 animation filler::fill(PNG& img, int x, int y, colorPicker& fillColor,
